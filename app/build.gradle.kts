@@ -38,6 +38,7 @@ android {
 
 dependencies {
 
+    implementation("androidx.media3:media3-exoplayer:1.8.0")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
     implementation(platform(libs.androidx.compose.bom))

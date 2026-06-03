@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package kr.android.basiclocalplayerpractice
+package kr.android.basiclocalplayerpractice.view
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kr.android.basiclocalplayerpractice.view.components.TopBar
 
 @Composable
 fun HomeScreen(

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package kr.android.basiclocalplayerpractice
+package kr.android.basiclocalplayerpractice.view.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
@@ -24,9 +24,7 @@ fun TopBar(
 
     val navigationIcon = @Composable {
         if (!title.contains("Local Music Player")) {
-            IconButton(
-                onClick = {}
-            ) {
+            IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.Default.ArrowBackIosNew,
                     contentDescription = "back"
@@ -38,7 +36,7 @@ fun TopBar(
     val actionIcon = @Composable {
         if (title.contains("Local Music Player")){
             IconButton(
-                onClick = {},
+                onClick = onFavoriteClick,
                 modifier = Modifier
                     .padding(8.dp)
                     .clip(CircleShape)
