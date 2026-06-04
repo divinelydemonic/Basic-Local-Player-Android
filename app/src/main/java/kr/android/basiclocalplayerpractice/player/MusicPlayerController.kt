@@ -66,4 +66,19 @@ class MusicPlayerController(
         else player.play()
     }
 
+    //current position of the music being played
+    fun getCurrentPosition() : Long {
+        return player.currentPosition
+    }
+
+    //total duration of the music being played
+    fun getDuration() : Long {
+        return player.duration
+    }
+
+    //move to sought position
+    fun seekTo(position : Long){
+        player.seekTo(position)
+    }
+
 }

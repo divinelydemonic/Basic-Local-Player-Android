@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.android.basiclocalplayerpractice.view.components.PlaybackControlsSection
+import kr.android.basiclocalplayerpractice.view.components.SeekBarSection
 import kr.android.basiclocalplayerpractice.viewmodel.MusicViewModel
 
 @Composable
@@ -25,6 +26,13 @@ fun MusicPlayerScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        SeekBarSection(
+            uiState = uiState,
+            onSeek = { position ->
+                viewModel.seekTo(position)
+            }
+        )
 
         PlaybackControlsSection(
             uiState = uiState,
