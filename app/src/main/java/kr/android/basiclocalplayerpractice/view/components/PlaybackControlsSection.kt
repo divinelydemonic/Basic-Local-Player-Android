@@ -7,30 +7,22 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kr.android.basiclocalplayerpractice.model.MusicUIState
-import kr.android.basiclocalplayerpractice.player.MusicPlayerController
 import kr.android.basiclocalplayerpractice.utils.RepeatModes
 
 @Composable
 fun PlaybackControlsSection(
     uiState: MusicUIState,
-    playerController: MusicPlayerController
+    onPlayPauseClick : () -> Unit
 ) {
 
     //extracting play-pause button
     val playPauseIcon =
-        if (playerController.isPlaying()) Icons.Default.Pause
+        if (uiState.isPlaying) Icons.Default.Pause
         else Icons.Default.PlayArrow
-
-
-    //todo remove (for testing)
-    LaunchedEffect(Unit) { playerController.loadSong() }
 
 
     Row(
@@ -89,13 +81,7 @@ fun PlaybackControlsSection(
             }
 
             //play-pause button
-            IconButton(
-                onClick = {
-                    //todo play-pause
-                    //todo remove (for testing)
-                    playerController.togglePlayPause()
-                }
-            ) {
+            IconButton(onClick = onPlayPauseClick) {
                 Icon(
                     imageVector = playPauseIcon,
                     contentDescription = "play-pause",
@@ -138,17 +124,4 @@ fun PlaybackControlsSection(
 
     }
 
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun PlaybackPrev(){
-
-    val context = LocalContext.current
-
-    PlaybackControlsSection(
-        uiState = MusicUIState(),
-        playerController = MusicPlayerController(context = context)
-    )
 }

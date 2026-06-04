@@ -38,9 +38,3 @@ fun AlbumArtSection(
     }
 
 }
-
-@Preview(showBackground = true)
-@Composable
-fun AlbumPrev(){
-    AlbumArtSection()
-}

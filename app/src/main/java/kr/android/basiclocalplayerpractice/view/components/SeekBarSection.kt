@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kr.android.basiclocalplayerpractice.model.MusicUIState
 import kr.android.basiclocalplayerpractice.utils.timeConversion
@@ -104,13 +103,4 @@ fun SeekBarSection(
 
     }
 
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SeekbarPrev(){
-    SeekBarSection(
-        uiState = MusicUIState(),
-        onSeek = {}
-    )
 }

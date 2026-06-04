@@ -4,18 +4,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import kr.android.basiclocalplayerpractice.model.MusicUIState
-import kr.android.basiclocalplayerpractice.player.MusicPlayerController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.android.basiclocalplayerpractice.view.components.PlaybackControlsSection
+import kr.android.basiclocalplayerpractice.viewmodel.MusicViewModel
 
 @Composable
 fun MusicPlayerScreen(
     modifier: Modifier,
-    playerController: MusicPlayerController
+    viewModel: MusicViewModel
 ){
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -25,8 +27,8 @@ fun MusicPlayerScreen(
     ) {
 
         PlaybackControlsSection(
-            uiState = MusicUIState(),
-            playerController = playerController
+            uiState = uiState,
+            onPlayPauseClick = { viewModel.togglePlayPause() }
         )
 
     }
