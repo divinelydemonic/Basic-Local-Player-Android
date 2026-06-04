@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import kr.android.basiclocalplayerpractice.player.MusicPlayerController
 import kr.android.basiclocalplayerpractice.ui.theme.BasicLocalPlayerPracticeTheme
 import kr.android.basiclocalplayerpractice.view.MusicPlayerScreen
 
@@ -16,10 +18,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
+            val context = LocalContext.current
+
             BasicLocalPlayerPracticeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MusicPlayerScreen(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        playerController = MusicPlayerController(context)
                     )
                 }
             }
