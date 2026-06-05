@@ -19,19 +19,29 @@ class MusicViewModel(
     //creating instance of player controller
     private val playerController = MusicPlayerController(context = getApplication())
 
+    //instances of MusicUIState
     private val _uiState = MutableStateFlow(MusicUIState())
     val uiState = _uiState.asStateFlow()
 
 
     init {
 
+        //what to do when music is being played and vice versa (isPlaying changed)
         playerController.onPlayingStateChanged = { isPlaying ->
-
             //copying isPlaying value from ExoPlayer into UIState
             _uiState.value = _uiState.value.copy(
                 isPlaying = isPlaying
             )
+        }
 
+        //what to do when music metadata has changed
+        playerController.onMetadataChanged = { metaData ->
+            //copying metadata from ExoPlayer into UIState
+            _uiState.value = _uiState.value.copy(
+                songTitle = metaData.title?.toString() ?: "",
+                artistName = metaData.artist?.toString() ?: "",
+                albumName = metaData.albumTitle?.toString() ?: ""
+            )
         }
 
         //todo remove (for testing)
