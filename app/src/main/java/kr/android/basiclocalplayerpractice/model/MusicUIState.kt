@@ -20,4 +20,7 @@ data class MusicUIState(
     val repeatModes: RepeatModes = RepeatModes.OFF,
     val shuffleMode : Boolean = false,
 
+    //list of songs
+    val songs : List<SongData> = emptyList()
+
 )

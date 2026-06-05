@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kr.android.basiclocalplayerpractice.data.MusicRepository
 import kr.android.basiclocalplayerpractice.model.MusicUIState
 import kr.android.basiclocalplayerpractice.player.MusicPlayerController
 
@@ -18,6 +19,9 @@ class MusicViewModel(
 
     //creating instance of player controller
     private val playerController = MusicPlayerController(context = getApplication())
+
+    //creating instance of music repository
+    private val musicRepository = MusicRepository(getApplication())
 
     //instances of MusicUIState
     private val _uiState = MutableStateFlow(MusicUIState())
@@ -59,6 +63,14 @@ class MusicViewModel(
 
         //provides current position updates
         startPositionUpdates()
+
+        //storing the songs from music repository
+        val songs = musicRepository.getAllSongs()
+
+        //copying all the songs from repository to the song list in MusicUIState
+        _uiState.value = _uiState.value.copy(
+            songs = songs
+        )
 
     }
 
