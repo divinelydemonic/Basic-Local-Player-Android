@@ -1,12 +1,7 @@
 package kr.android.basiclocalplayerpractice.view.components
 
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +15,7 @@ import kr.android.basiclocalplayerpractice.model.MusicUIState
 fun MusicInfoSection(uiState: MusicUIState){
 
     Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
 
