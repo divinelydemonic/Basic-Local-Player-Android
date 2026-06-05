@@ -47,7 +47,7 @@ fun PlaybackControlsSection(
                 onClick = {
                     //todo repeat mode switch
                 },
-                modifier = Modifier.size(35.dp)
+                modifier = Modifier.size(40.dp)
             ) {
                 Icon(
                     imageVector =
@@ -72,7 +72,7 @@ fun PlaybackControlsSection(
                 onClick = {
                     //todo previous track
                 },
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(60.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.SkipPrevious,
@@ -85,7 +85,7 @@ fun PlaybackControlsSection(
             //play-pause button
             IconButton(
                 onClick = onPlayPauseClick,
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(60.dp)
             ) {
                 Icon(
                     imageVector = playPauseIcon,
@@ -100,7 +100,7 @@ fun PlaybackControlsSection(
                 onClick = {
                     //todo next track
                 },
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(60.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.SkipNext,
@@ -115,7 +115,7 @@ fun PlaybackControlsSection(
                 onClick = {
                     //todo shuffle mode toggle
                 },
-                modifier = Modifier.size(35.dp)
+                modifier = Modifier.size(40.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Shuffle,

@@ -15,7 +15,7 @@ import kr.android.basiclocalplayerpractice.model.MusicUIState
 fun MusicInfoSection(uiState: MusicUIState){
 
     Column(
-        modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
+        modifier = Modifier.padding(horizontal = 32.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
 

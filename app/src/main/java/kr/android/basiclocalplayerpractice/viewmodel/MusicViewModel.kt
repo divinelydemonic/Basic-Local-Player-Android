@@ -28,7 +28,7 @@ class MusicViewModel(
 
         //what to do when music is being played and vice versa (isPlaying changed)
         playerController.onPlayingStateChanged = { isPlaying ->
-            //copying isPlaying value from ExoPlayer into UIState
+            //copying isPlaying value from player listener into UIState
             _uiState.value = _uiState.value.copy(
                 isPlaying = isPlaying
             )
@@ -36,11 +36,19 @@ class MusicViewModel(
 
         //what to do when music metadata has changed
         playerController.onMetadataChanged = { metaData ->
-            //copying metadata from ExoPlayer into UIState
+            //copying metadata from player listener into UIState
             _uiState.value = _uiState.value.copy(
                 songTitle = metaData.title?.toString() ?: "",
                 artistName = metaData.artist?.toString() ?: "",
                 albumName = metaData.albumTitle?.toString() ?: ""
+            )
+        }
+
+        //what to do when music album art has changed
+        playerController.onAlbumArtChanged = { bitmap ->
+            //copying album art from player listener into UIState
+            _uiState.value= _uiState.value.copy(
+                albumArt = bitmap
             )
         }
 

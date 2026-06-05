@@ -1,5 +1,6 @@
 package kr.android.basiclocalplayerpractice.model
 
+import android.graphics.Bitmap
 import kr.android.basiclocalplayerpractice.utils.RepeatModes
 
 data class MusicUIState(
@@ -13,6 +14,7 @@ data class MusicUIState(
     val songTitle : String = "",
     val artistName : String = "",
     val albumName : String = "",
+    val albumArt : Bitmap? = null,
 
     //playback modes
     val repeatModes: RepeatModes = RepeatModes.OFF,
