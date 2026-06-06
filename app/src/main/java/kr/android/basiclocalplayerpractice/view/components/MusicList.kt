@@ -36,6 +36,7 @@ fun MusicList(
                 uiState = uiState,
                 song = song,
                 onSongClick = onSongClick,
+                onFavoriteClick = {},
                 isCurrentSong = song.id == uiState.currentSong?.id
             )
         }

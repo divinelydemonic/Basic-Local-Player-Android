@@ -73,6 +73,11 @@ class MusicPlayerController(
         player.play()
     }
 
+    //pauses the song
+    fun pauseSong() {
+        player.pause()
+    }
+
     //toggles play-pause button
     fun togglePlayPause(){
         if (player.isPlaying) player.pause()

@@ -66,8 +66,11 @@ class MusicViewModel(
                         val currentIndex =
                             songs.indexOfFirst { it.id == currentSong.id }
 
-                        if (currentIndex < songs.lastIndex) {
-                            playNextSong()
+                        if (currentIndex < songs.lastIndex) { playNextSong() }
+                        else {
+                            playerController.pauseSong()
+                            _uiState.value = _uiState.value.copy(currentPosition = 0L)
+                            playerController.seekTo(0)
                         }
                     }
                 }
@@ -172,9 +175,9 @@ class MusicViewModel(
 
         val nextMode =
             when (_uiState.value.repeatMode) {
-                RepeatModes.OFF -> RepeatModes.ONE
-                RepeatModes.ONE -> RepeatModes.ALL
-                RepeatModes.ALL -> RepeatModes.OFF
+                RepeatModes.OFF -> RepeatModes.ALL
+                RepeatModes.ALL -> RepeatModes.ONE
+                RepeatModes.ONE -> RepeatModes.OFF
             }
 
         _uiState.value = _uiState.value.copy(repeatMode = nextMode)

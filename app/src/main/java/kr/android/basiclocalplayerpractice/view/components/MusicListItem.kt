@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
@@ -29,6 +30,7 @@ fun MusicListItem(
     uiState: MusicUIState,
     song: SongData,
     onSongClick : (SongData) -> Unit,
+    onFavoriteClick : (SongData) -> Unit,
     isCurrentSong : Boolean
 ){
 
@@ -40,9 +42,6 @@ fun MusicListItem(
         label = "isPlayingColor"
     )
 
-    val playPauseIcon =
-        if (isCurrentSong && uiState.isPlaying) Icons.Default.Pause
-        else Icons.Default.PlayArrow
 
     Row(
         modifier = Modifier
@@ -59,8 +58,9 @@ fun MusicListItem(
             colors = CardDefaults.cardColors(
                 containerColor =
                     if (isCurrentSong) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.primaryContainer
-            )
+                    else MaterialTheme.colorScheme.surfaceVariant
+            ),
+            onClick = { onSongClick(song) }
         ) {
 
             Row(
@@ -129,16 +129,14 @@ fun MusicListItem(
                     contentAlignment = Alignment.Center
                 ){
                     IconButton(
-                        onClick = {
-                            onSongClick(song)
-                        },
+                        onClick = { onFavoriteClick(song) },
                         modifier = Modifier.size(40.dp)
                     ) {
                         Icon(
-                            imageVector = playPauseIcon,
-                            contentDescription = "play",
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = "favorite",
                             tint = isPlayingColor,
-                            modifier = Modifier.size(35.dp)
+                            modifier = Modifier.size(25.dp)
                         )
                     }
                 }
