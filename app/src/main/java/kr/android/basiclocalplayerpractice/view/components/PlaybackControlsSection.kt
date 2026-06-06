@@ -16,7 +16,11 @@ import kr.android.basiclocalplayerpractice.utils.RepeatModes
 @Composable
 fun PlaybackControlsSection(
     uiState: MusicUIState,
-    onPlayPauseClick : () -> Unit
+    onPlayPauseClick : () -> Unit,
+    onNextClick : () -> Unit,
+    onPreviousClick : () -> Unit,
+    onRepeatClick : () -> Unit,
+    onShuffleClick : () -> Unit
 ) {
 
     //extracting play-pause button
@@ -44,9 +48,7 @@ fun PlaybackControlsSection(
 
             //repeat mode button
             IconButton(
-                onClick = {
-                    //todo repeat mode switch
-                },
+                onClick = onRepeatClick,
                 modifier = Modifier.size(40.dp)
             ) {
                 Icon(
@@ -69,9 +71,7 @@ fun PlaybackControlsSection(
 
             //previous track button
             IconButton(
-                onClick = {
-                    //todo previous track
-                },
+                onClick = onPreviousClick,
                 modifier = Modifier.size(60.dp)
             ) {
                 Icon(
@@ -97,9 +97,7 @@ fun PlaybackControlsSection(
 
             //next track button
             IconButton(
-                onClick = {
-                    //todo next track
-                },
+                onClick = onNextClick,
                 modifier = Modifier.size(60.dp)
             ) {
                 Icon(
@@ -112,9 +110,7 @@ fun PlaybackControlsSection(
 
             //shuffle mode button
             IconButton(
-                onClick = {
-                    //todo shuffle mode toggle
-                },
+                onClick = onShuffleClick,
                 modifier = Modifier.size(40.dp)
             ) {
                 Icon(

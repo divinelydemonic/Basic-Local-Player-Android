@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,23 +23,23 @@ import kr.android.basiclocalplayerpractice.viewmodel.MusicViewModel
 
 @Composable
 fun MusicPlayerScreen(
-    viewModel: MusicViewModel
+    musicViewModel: MusicViewModel
 ){
 
     //instance of MusicUIState data class
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by musicViewModel.uiState.collectAsStateWithLifecycle()
 
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(
                 color = MaterialTheme.colorScheme.inversePrimary
             )
     ){
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(top = 16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -55,16 +56,21 @@ fun MusicPlayerScreen(
             SeekBarSection(
                 uiState = uiState,
                 onSeek = { position ->
-                    viewModel.seekTo(position)
+                    musicViewModel.seekTo(position)
                 }
             )
 
             PlaybackControlsSection(
                 uiState = uiState,
-                onPlayPauseClick = { viewModel.togglePlayPause() }
+                onPlayPauseClick = { musicViewModel.togglePlayPause() },
+                onNextClick = { musicViewModel.playNextSong() },
+                onPreviousClick = { musicViewModel.playPreviousSong() },
+                onRepeatClick = {  },
+                onShuffleClick = {  },
             )
 
         }
+
     }
 
 }

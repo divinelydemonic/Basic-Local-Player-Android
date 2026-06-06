@@ -1,5 +1,6 @@
 package kr.android.basiclocalplayerpractice.view.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +33,7 @@ fun AlbumArtSection(
             .size(350.dp)
             .padding(bottom = 16.dp)
             .clip(RoundedCornerShape(24.dp))
+            .background(MaterialTheme.colorScheme.primary)
             .border(
                 width = 2.dp,
                 color = MaterialTheme.colorScheme.outlineVariant,

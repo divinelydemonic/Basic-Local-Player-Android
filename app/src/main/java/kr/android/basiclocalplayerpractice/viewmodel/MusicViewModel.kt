@@ -1,6 +1,7 @@
 package kr.android.basiclocalplayerpractice.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -74,6 +75,7 @@ class MusicViewModel(
     //selects a song from list for playing
     fun selectSong(song: SongData){
 
+        //if the current song is playing then it should play/pause
         if (_uiState.value.currentSong?.id == song.id){
             playerController.togglePlayPause()
             return
@@ -90,12 +92,50 @@ class MusicViewModel(
         playerController.playSong()
     }
 
+    //play/pause song
     fun togglePlayPause(){
         playerController.togglePlayPause()
     }
 
+    //drag music slider
     fun seekTo(position: Long){
         playerController.seekTo(position)
+    }
+
+    //for skipping to next song
+    fun playNextSong(){
+
+        val songs = _uiState.value.songs
+        val currentSong = _uiState.value.currentSong ?: return
+
+        val currentIndex = songs.indexOfFirst {it.id == currentSong.id }
+
+        if (currentIndex == -1) return
+
+        val nextIndex =
+            if (currentIndex < songs.lastIndex) currentIndex + 1
+            else 0
+
+        selectSong(songs[nextIndex])
+
+    }
+
+    //for getting to the previous song
+    fun playPreviousSong(){
+
+        val songs = _uiState.value.songs
+        val currentSong = _uiState.value.currentSong ?: return
+
+        val currentIndex = songs.indexOfFirst {it.id == currentSong.id }
+
+        if (currentIndex == -1) return
+
+        val previousIndex =
+            if (currentIndex > 0) currentIndex - 1
+            else songs.lastIndex
+
+        selectSong(songs[previousIndex])
+
     }
 
 }
