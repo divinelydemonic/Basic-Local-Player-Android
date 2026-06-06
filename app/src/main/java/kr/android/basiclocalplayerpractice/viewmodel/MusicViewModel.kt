@@ -59,18 +59,26 @@ class MusicViewModel(
                 //stop playback after the last song instead of looping
                 RepeatModes.OFF -> {
 
-                    val songs = _uiState.value.songs
-                    val currentSong = _uiState.value.currentSong
+                    //if shuffle mode is on, play as usual
+                    if (_uiState.value.shuffleMode) { playNextSong() }
+                    //if shuffle mode is of don't play first song after last
+                    //once playback finishes the seekbar seeks to 0 and pauses
+                    //which can be played once again
+                    else {
 
-                    if (currentSong != null) {
-                        val currentIndex =
-                            songs.indexOfFirst { it.id == currentSong.id }
+                        val songs = _uiState.value.songs
+                        val currentSong = _uiState.value.currentSong
 
-                        if (currentIndex < songs.lastIndex) { playNextSong() }
-                        else {
-                            playerController.pauseSong()
-                            _uiState.value = _uiState.value.copy(currentPosition = 0L)
-                            playerController.seekTo(0)
+                        if (currentSong != null) {
+
+                            val currentIndex = songs.indexOfFirst { it.id == currentSong.id }
+
+                            if (currentIndex < songs.lastIndex) { playNextSong() }
+                            else {
+                                playerController.pauseSong()
+                                _uiState.value = _uiState.value.copy(currentPosition = 0L)
+                                playerController.seekTo(0)
+                            }
                         }
                     }
                 }
@@ -138,16 +146,28 @@ class MusicViewModel(
     fun playNextSong(){
 
         val songs = _uiState.value.songs
+
+        //return the song data if any song is playing
         val currentSong = _uiState.value.currentSong ?: return
 
+        //get index of current song
         val currentIndex = songs.indexOfFirst {it.id == currentSong.id }
 
+        //if no song playing do nothing
         if (currentIndex == -1) return
 
+        //get next song index
         val nextIndex =
-            if (currentIndex < songs.lastIndex) currentIndex + 1
-            else 0
+            //if shuffle mode is on, randomize next song index
+            if (_uiState.value.shuffleMode) { songs.indices.random() }
+            //if shuffle mode is off, go to next song index serially
+            //if last song get first song index
+            else {
+                if (currentIndex < songs.lastIndex) currentIndex + 1
+                else 0
+            }
 
+        //select next song from next index
         selectSong(songs[nextIndex])
 
     }
@@ -156,16 +176,23 @@ class MusicViewModel(
     fun playPreviousSong(){
 
         val songs = _uiState.value.songs
+
+        //return the song data if any song is playing
         val currentSong = _uiState.value.currentSong ?: return
 
+        //get index of current song
         val currentIndex = songs.indexOfFirst {it.id == currentSong.id }
 
+        //if no song playing do nothing
         if (currentIndex == -1) return
 
+        //get index of previous song
+        //if first song get last song index
         val previousIndex =
             if (currentIndex > 0) currentIndex - 1
             else songs.lastIndex
 
+        //select previous song from previous index
         selectSong(songs[previousIndex])
 
     }
@@ -181,6 +208,13 @@ class MusicViewModel(
             }
 
         _uiState.value = _uiState.value.copy(repeatMode = nextMode)
+    }
+
+    //toggling shuffle modes
+    fun toggleShuffleMode() {
+        _uiState.value = _uiState.value.copy(
+            shuffleMode = !_uiState.value.shuffleMode
+        )
     }
 
 }
