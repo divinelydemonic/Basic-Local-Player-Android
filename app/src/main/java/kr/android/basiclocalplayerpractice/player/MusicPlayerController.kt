@@ -13,16 +13,29 @@ class MusicPlayerController(
 
     private val player = ExoPlayer.Builder(context).build()
 
+    //to detect if any song is playing or not
     var onPlayingStateChanged : ((Boolean) -> Unit)? = null
+
+    //to detect if song has ended or not
+    var onSongEnded: (() -> Unit)? = null
 
 
     init {
         player.addListener(
             object : Player.Listener{
-                //what to do when isPlaying value is changed (music playing/not)
+
+                //what to do when isPlaying value has changed (music playing/not)
                 override fun onIsPlayingChanged(isPlaying: Boolean) {
                     onPlayingStateChanged?.invoke(isPlaying)
                 }
+
+                //what to do when onSongEnded value has changed
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    if (playbackState == Player.STATE_ENDED) {
+                        onSongEnded?.invoke()
+                    }
+                }
+
             }
         )
     }

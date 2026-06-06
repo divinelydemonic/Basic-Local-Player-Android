@@ -1,6 +1,5 @@
 package kr.android.basiclocalplayerpractice.model
 
-import android.graphics.Bitmap
 import kr.android.basiclocalplayerpractice.utils.RepeatModes
 
 //playback state -> dynamic
@@ -15,7 +14,7 @@ data class MusicUIState(
     val currentSong: SongData? = null,
 
     //playback modes
-    val repeatModes: RepeatModes = RepeatModes.OFF,
+    val repeatMode: RepeatModes = RepeatModes.OFF,
     val shuffleMode : Boolean = false,
 
     //list of songs

@@ -1,7 +1,6 @@
 package kr.android.basiclocalplayerpractice.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -13,6 +12,7 @@ import kr.android.basiclocalplayerpractice.data.MusicRepository
 import kr.android.basiclocalplayerpractice.model.MusicUIState
 import kr.android.basiclocalplayerpractice.model.SongData
 import kr.android.basiclocalplayerpractice.player.MusicPlayerController
+import kr.android.basiclocalplayerpractice.utils.RepeatModes
 import kotlin.time.Duration.Companion.milliseconds
 
 class MusicViewModel(
@@ -37,6 +37,43 @@ class MusicViewModel(
             //copying isPlaying value from player listener into UIState
             _uiState.value = _uiState.value.copy(isPlaying = isPlaying)
         }
+
+        //what to do when the current song finishes playing
+        playerController.onSongEnded = {
+
+            when (_uiState.value.repeatMode) {
+
+                //restart the same song when repeat-one is enabled
+                RepeatModes.ONE -> {
+
+                    val currentSong = _uiState.value.currentSong
+
+                    if (currentSong != null) {
+                        selectSong(currentSong)
+                    }
+                }
+
+                //continue playback through the entire playlist and loop back to the start
+                RepeatModes.ALL -> { playNextSong() }
+
+                //stop playback after the last song instead of looping
+                RepeatModes.OFF -> {
+
+                    val songs = _uiState.value.songs
+                    val currentSong = _uiState.value.currentSong
+
+                    if (currentSong != null) {
+                        val currentIndex =
+                            songs.indexOfFirst { it.id == currentSong.id }
+
+                        if (currentIndex < songs.lastIndex) {
+                            playNextSong()
+                        }
+                    }
+                }
+            }
+        }
+
 
         //provides current position updates
         startPositionUpdates()
@@ -75,15 +112,7 @@ class MusicViewModel(
     //selects a song from list for playing
     fun selectSong(song: SongData){
 
-        //if the current song is playing then it should play/pause
-        if (_uiState.value.currentSong?.id == song.id){
-            playerController.togglePlayPause()
-            return
-        }
-
-        _uiState.value = _uiState.value.copy(
-            currentSong = song
-        )
+        _uiState.value = _uiState.value.copy(currentSong = song)
 
         //loads the song
         playerController.loadSong(song)
@@ -136,6 +165,19 @@ class MusicViewModel(
 
         selectSong(songs[previousIndex])
 
+    }
+
+    //toggling repeat modes
+    fun toggleRepeatMode() {
+
+        val nextMode =
+            when (_uiState.value.repeatMode) {
+                RepeatModes.OFF -> RepeatModes.ONE
+                RepeatModes.ONE -> RepeatModes.ALL
+                RepeatModes.ALL -> RepeatModes.OFF
+            }
+
+        _uiState.value = _uiState.value.copy(repeatMode = nextMode)
     }
 
 }

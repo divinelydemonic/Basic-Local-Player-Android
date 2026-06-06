@@ -53,14 +53,14 @@ fun PlaybackControlsSection(
             ) {
                 Icon(
                     imageVector =
-                        when (uiState.repeatModes) {
+                        when (uiState.repeatMode) {
                             RepeatModes.OFF -> Icons.Default.Repeat
                             RepeatModes.ONE -> Icons.Default.RepeatOne
                             RepeatModes.ALL -> Icons.Default.Repeat
                         },
                     contentDescription = "repeat mode",
                     tint =
-                        when (uiState.repeatModes) {
+                        when (uiState.repeatMode) {
                             RepeatModes.OFF -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
                             RepeatModes.ONE -> MaterialTheme.colorScheme.onSurface
                             RepeatModes.ALL -> MaterialTheme.colorScheme.onSurface

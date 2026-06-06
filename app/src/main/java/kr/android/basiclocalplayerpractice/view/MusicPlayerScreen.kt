@@ -65,7 +65,7 @@ fun MusicPlayerScreen(
                 onPlayPauseClick = { musicViewModel.togglePlayPause() },
                 onNextClick = { musicViewModel.playNextSong() },
                 onPreviousClick = { musicViewModel.playPreviousSong() },
-                onRepeatClick = {  },
+                onRepeatClick = { musicViewModel.toggleRepeatMode() },
                 onShuffleClick = {  },
             )
 
