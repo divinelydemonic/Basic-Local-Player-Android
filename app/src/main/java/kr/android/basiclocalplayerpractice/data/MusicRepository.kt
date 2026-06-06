@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
 import android.util.Log
+import androidx.core.net.toUri
 import kr.android.basiclocalplayerpractice.model.SongData
 
 class MusicRepository(
@@ -19,13 +20,15 @@ class MusicRepository(
         //stores location of all audio files (URI)
         val audioCollection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
+
         //projection is the attributes we need from a table
         //array of info we need from the metadata
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.ARTIST,
-            MediaStore.Audio.Media.ALBUM
+            MediaStore.Audio.Media.ALBUM,
+            MediaStore.Audio.Media.ALBUM_ID
         )   //creates a table of all the columns we need
 
         //using query in contentResolver for getting the songs (returns Cursor?)
@@ -65,6 +68,11 @@ class MusicRepository(
                     MediaStore.Audio.Media.ALBUM
                 )
 
+            val albumIdColumn =
+                cursor.getColumnIndexOrThrow(
+                    MediaStore.Audio.Media.ALBUM_ID
+                )
+
 
             while (cursor.moveToNext()){   //moves to the next row till there's a row to read
 
@@ -73,8 +81,16 @@ class MusicRepository(
                 val title = cursor.getString(titleColumn)
                 val artist = cursor.getString(artistColumn)
                 val album = cursor.getString(albumColumn)
+                val albumId = cursor.getLong(albumIdColumn)
 
-                //creating uri for the song to providing ExoPlayer to play
+                //creating uri for the album art for providing UI to show
+                val albumArtUri =
+                    ContentUris.withAppendedId(
+                        "content://media/external/audio/albumart".toUri(),
+                        albumId
+                    )
+
+                //creating uri for the song for providing ExoPlayer to play
                 val uri = ContentUris.withAppendedId(
                     audioCollection,    //location of song
                     id                              //id of song
@@ -87,7 +103,9 @@ class MusicRepository(
                         title = title,
                         artist = artist,
                         album = album,
-                        uri = uri
+                        uri = uri,
+                        albumId = albumId,
+                        albumArtUri = albumArtUri
                     )
                 )
             }
@@ -96,6 +114,5 @@ class MusicRepository(
 
         return songs
     }
-
 
 }

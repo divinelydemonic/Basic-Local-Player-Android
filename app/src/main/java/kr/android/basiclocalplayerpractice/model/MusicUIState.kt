@@ -3,6 +3,7 @@ package kr.android.basiclocalplayerpractice.model
 import android.graphics.Bitmap
 import kr.android.basiclocalplayerpractice.utils.RepeatModes
 
+//playback state -> dynamic
 data class MusicUIState(
 
     //music info
@@ -10,11 +11,8 @@ data class MusicUIState(
     val currentPosition : Long = 0L,
     val duration : Long = 0L,
 
-    //music metadata
-    val songTitle : String = "",
-    val artistName : String = "",
-    val albumName : String = "",
-    val albumArt : Bitmap? = null,
+    //point which song is playing
+    val currentSong: SongData? = null,
 
     //playback modes
     val repeatModes: RepeatModes = RepeatModes.OFF,

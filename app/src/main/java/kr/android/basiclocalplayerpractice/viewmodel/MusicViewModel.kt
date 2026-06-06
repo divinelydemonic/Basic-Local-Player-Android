@@ -1,7 +1,6 @@
 package kr.android.basiclocalplayerpractice.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -11,7 +10,9 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kr.android.basiclocalplayerpractice.data.MusicRepository
 import kr.android.basiclocalplayerpractice.model.MusicUIState
+import kr.android.basiclocalplayerpractice.model.SongData
 import kr.android.basiclocalplayerpractice.player.MusicPlayerController
+import kotlin.time.Duration.Companion.milliseconds
 
 class MusicViewModel(
     application: Application
@@ -33,33 +34,8 @@ class MusicViewModel(
         //what to do when music is being played and vice versa (isPlaying changed)
         playerController.onPlayingStateChanged = { isPlaying ->
             //copying isPlaying value from player listener into UIState
-            _uiState.value = _uiState.value.copy(
-                isPlaying = isPlaying
-            )
+            _uiState.value = _uiState.value.copy(isPlaying = isPlaying)
         }
-
-        //what to do when music metadata has changed
-        playerController.onMetadataChanged = { metaData ->
-            //copying metadata from player listener into UIState
-            _uiState.value = _uiState.value.copy(
-                songTitle = metaData.title?.toString() ?: "",
-                artistName = metaData.artist?.toString() ?: "",
-                albumName = metaData.albumTitle?.toString() ?: ""
-            )
-        }
-
-        //what to do when music album art has changed
-        playerController.onAlbumArtChanged = { bitmap ->
-            //copying album art from player listener into UIState
-            _uiState.value= _uiState.value.copy(
-                albumArt = bitmap
-            )
-        }
-
-        //todo remove (for testing)
-
-        //loads the available song
-        playerController.loadSong()
 
         //provides current position updates
         startPositionUpdates()
@@ -68,24 +44,17 @@ class MusicViewModel(
         val songs = musicRepository.getAllSongs()
 
         //copying all the songs from repository to the song list in MusicUIState
-        _uiState.value = _uiState.value.copy(
-            songs = songs
-        )
+        _uiState.value = _uiState.value.copy(songs = songs)
 
     }
 
     //updating the current position of the music
-    fun startPositionUpdates(){
+    private fun startPositionUpdates(){
 
         viewModelScope.launch {
 
             //as long as the coroutine is not canceled (canceled if viewmodel is destroyed)
             while (isActive) {
-
-                Log.d(
-                    "Position",
-                    "current=${playerController.getCurrentPosition()}"
-                )
 
                 //copies the current position and total duration into UIState
                 _uiState.value = _uiState.value.copy(
@@ -94,7 +63,7 @@ class MusicViewModel(
                 )
 
                 //refreshes the current position of the song every 0.5s
-                delay(500)
+                delay(500.milliseconds)
 
             }
 
@@ -102,10 +71,23 @@ class MusicViewModel(
 
     }
 
-    //accessed methods from player controller
+    //selects a song from list for playing
+    fun selectSong(song: SongData){
 
-    fun loadSong(){
-        playerController.loadSong()
+        if (_uiState.value.currentSong?.id == song.id){
+            playerController.togglePlayPause()
+            return
+        }
+
+        _uiState.value = _uiState.value.copy(
+            currentSong = song
+        )
+
+        //loads the song
+        playerController.loadSong(song)
+
+        //plays the song
+        playerController.playSong()
     }
 
     fun togglePlayPause(){

@@ -10,7 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kr.android.basiclocalplayerpractice.ui.theme.BasicLocalPlayerPracticeTheme
-import kr.android.basiclocalplayerpractice.view.MusicPlayerScreen
+import kr.android.basiclocalplayerpractice.view.HomeScreen
 import kr.android.basiclocalplayerpractice.viewmodel.MusicViewModel
 
 class MainActivity : ComponentActivity() {
@@ -19,13 +19,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
-            val viewModel : MusicViewModel = viewModel()
+            val musicViewModel : MusicViewModel = viewModel()
 
             BasicLocalPlayerPracticeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MusicPlayerScreen(
+                    HomeScreen(
                         modifier = Modifier.padding(innerPadding),
-                        viewModel = viewModel
+                        musicViewModel = musicViewModel
                     )
                 }
             }

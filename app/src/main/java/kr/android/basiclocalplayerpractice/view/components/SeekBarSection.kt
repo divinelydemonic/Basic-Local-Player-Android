@@ -75,7 +75,7 @@ fun SeekBarSection(
                     isDragging = false
                 },
                 colors = SliderDefaults.colors(
-                    inactiveTrackColor = MaterialTheme.colorScheme.primaryContainer,
+                    inactiveTrackColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     activeTrackColor = MaterialTheme.colorScheme.primary,
                     thumbColor = MaterialTheme.colorScheme.primary
                 )
