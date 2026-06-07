@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
@@ -16,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -41,6 +43,12 @@ fun MusicListItem(
         animationSpec = tween(50),
         label = "isPlayingColor"
     )
+
+    val isFavorite = song.id in uiState.favoriteSongIds
+
+    val favoriteIcon =
+        if (isFavorite) Icons.Default.Favorite
+        else Icons.Default.FavoriteBorder
 
 
     Row(
@@ -133,9 +141,11 @@ fun MusicListItem(
                         modifier = Modifier.size(40.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
+                            imageVector = favoriteIcon,
                             contentDescription = "favorite",
-                            tint = isPlayingColor,
+                            tint =
+                                if (isFavorite) Color(0xFFF17979)
+                                else isPlayingColor,
                             modifier = Modifier.size(25.dp)
                         )
                     }

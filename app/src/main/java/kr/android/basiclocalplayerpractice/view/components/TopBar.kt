@@ -6,8 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,23 +18,22 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TopBar(
     title : String,
-    onBackClick: () -> Unit = {},
-    onFavoriteClick : () -> Unit = {}
+    onFavoriteClick : () -> Unit = {},
+    isFavoriteFilterEnabled: Boolean,
+    favoriteCount: Int
 ){
 
-    val navigationIcon = @Composable {
-        if (!title.contains("Local Music Player")) {
-            IconButton(onClick = onBackClick) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBackIosNew,
-                    contentDescription = "back"
-                )
-            }
-        }
-    }
-
-    val actionIcon = @Composable {
-        if (title.contains("Local Music Player")){
+    TopAppBar(
+        title = {
+            Text(
+                text =
+                    if (isFavoriteFilterEnabled) "Favorites ($favoriteCount)"
+                    else title,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.headlineMedium
+            )
+        },
+        actions = {
             IconButton(
                 onClick = onFavoriteClick,
                 modifier = Modifier
@@ -43,30 +42,19 @@ fun TopBar(
                     .background(MaterialTheme.colorScheme.surface)
             ) {
                 Icon(
-                    imageVector = Icons.Default.Favorite,
-                    contentDescription = "back"
+                    imageVector =
+                        if (isFavoriteFilterEnabled) Icons.Default.Favorite
+                        else Icons.Default.FavoriteBorder,
+                    contentDescription = "back",
+                    tint =
+                        if (isFavoriteFilterEnabled) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.onSurface
                 )
             }
-        }
-    }
-
-
-
-    TopAppBar(
-        title = {
-            Text(
-                text = title,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.headlineMedium
-            )
         },
-        navigationIcon = navigationIcon,
-        actions = { actionIcon() },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.inversePrimary,
-            titleContentColor = MaterialTheme.colorScheme.onSurface,
-            actionIconContentColor = MaterialTheme.colorScheme.onSurface,
-            navigationIconContentColor = MaterialTheme.colorScheme.onSurface
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            titleContentColor = MaterialTheme.colorScheme.onSurface
         )
     )
 

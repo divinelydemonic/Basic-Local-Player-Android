@@ -3,7 +3,6 @@ package kr.android.basiclocalplayerpractice.data
 import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
-import android.util.Log
 import androidx.core.net.toUri
 import kr.android.basiclocalplayerpractice.model.SongData
 

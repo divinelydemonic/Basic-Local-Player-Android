@@ -12,6 +12,7 @@ import kr.android.basiclocalplayerpractice.data.MusicRepository
 import kr.android.basiclocalplayerpractice.model.MusicUIState
 import kr.android.basiclocalplayerpractice.model.SongData
 import kr.android.basiclocalplayerpractice.player.MusicPlayerController
+import kr.android.basiclocalplayerpractice.utils.PlaylistMode
 import kr.android.basiclocalplayerpractice.utils.RepeatModes
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -29,7 +30,7 @@ class MusicViewModel(
     private val _uiState = MutableStateFlow(MusicUIState())
     val uiState = _uiState.asStateFlow()
 
-
+    //initializing code (runs as soon as the app starts)
     init {
 
         //what to do when music is being played and vice versa (isPlaying changed)
@@ -61,12 +62,13 @@ class MusicViewModel(
 
                     //if shuffle mode is on, play as usual
                     if (_uiState.value.shuffleMode) { playNextSong() }
-                    //if shuffle mode is of don't play first song after last
+                    //if shuffle mode is off don't play first song after last
                     //once playback finishes the seekbar seeks to 0 and pauses
                     //which can be played once again
                     else {
 
-                        val songs = _uiState.value.songs
+                        //the song list depends on which playlist we are on
+                        val songs = getActivePlaylist()
                         val currentSong = _uiState.value.currentSong
 
                         if (currentSong != null) {
@@ -85,16 +87,18 @@ class MusicViewModel(
             }
         }
 
+        //loads the songs on app starting after getting permission
+        loadSongs()
 
         //provides current position updates
         startPositionUpdates()
 
-        //storing the songs from music repository
+    }
+
+    //loads the songs from repository
+    fun loadSongs() {
         val songs = musicRepository.getAllSongs()
-
-        //copying all the songs from repository to the song list in MusicUIState
         _uiState.value = _uiState.value.copy(songs = songs)
-
     }
 
     //updating the current position of the music
@@ -145,7 +149,8 @@ class MusicViewModel(
     //for skipping to next song
     fun playNextSong(){
 
-        val songs = _uiState.value.songs
+        //the song list will be determined on which playlist we are (all/favorites)
+        val songs = getActivePlaylist()
 
         //return the song data if any song is playing
         val currentSong = _uiState.value.currentSong ?: return
@@ -153,8 +158,14 @@ class MusicViewModel(
         //get index of current song
         val currentIndex = songs.indexOfFirst {it.id == currentSong.id }
 
-        //if no song playing do nothing
-        if (currentIndex == -1) return
+        //if the current song is not part of the active playlist,
+        //start playback from the first song in the playlist
+        if (currentIndex == -1) {
+            if (songs.isNotEmpty()) {
+                selectSong(songs.first())
+            }
+            return
+        }
 
         //get next song index
         val nextIndex =
@@ -175,7 +186,8 @@ class MusicViewModel(
     //for getting to the previous song
     fun playPreviousSong(){
 
-        val songs = _uiState.value.songs
+        //the song list will be determined on which playlist we are (all/favorites)
+        val songs = getActivePlaylist()
 
         //return the song data if any song is playing
         val currentSong = _uiState.value.currentSong ?: return
@@ -183,8 +195,14 @@ class MusicViewModel(
         //get index of current song
         val currentIndex = songs.indexOfFirst {it.id == currentSong.id }
 
-        //if no song playing do nothing
-        if (currentIndex == -1) return
+        //if the current song is not part of the active playlist,
+        //start playback from the first song in the playlist
+        if (currentIndex == -1) {
+            if (songs.isNotEmpty()) {
+                selectSong(songs.first())
+            }
+            return
+        }
 
         //get index of previous song
         //if first song get last song index
@@ -215,6 +233,42 @@ class MusicViewModel(
         _uiState.value = _uiState.value.copy(
             shuffleMode = !_uiState.value.shuffleMode
         )
+    }
+
+    //toggle add to favorites
+    fun toggleFavorite(song: SongData) {
+
+        val favorites = _uiState.value.favoriteSongIds.toMutableSet()
+
+        if (song.id in favorites) { favorites.remove(song.id) }
+        else { favorites.add(song.id) }
+
+        _uiState.value = _uiState.value.copy(favoriteSongIds = favorites)
+    }
+
+    //toggle playlist
+    fun togglePlaylistMode() {
+
+        val nextMode =
+            when (_uiState.value.playlistMode) {
+                PlaylistMode.ALL -> PlaylistMode.FAVORITES
+                PlaylistMode.FAVORITES -> PlaylistMode.ALL }
+
+        _uiState.value = _uiState.value.copy(playlistMode = nextMode)
+    }
+
+    //get the current playlist (all/favorites)
+    fun getActivePlaylist(): List<SongData> {
+        return if (_uiState.value.playlistMode == PlaylistMode.FAVORITES) {
+            _uiState.value.songs.filter {
+                it.id in _uiState.value.favoriteSongIds
+            }
+        } else { _uiState.value.songs }
+    }
+
+    //updates state of permission (allowed/denied)
+    fun updatePermissionState(hasPermission: Boolean) {
+        _uiState.value = _uiState.value.copy(hasAudioPermission = hasPermission)
     }
 
 }

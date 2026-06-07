@@ -1,5 +1,6 @@
 package kr.android.basiclocalplayerpractice.model
 
+import kr.android.basiclocalplayerpractice.utils.PlaylistMode
 import kr.android.basiclocalplayerpractice.utils.RepeatModes
 
 //playback state -> dynamic
@@ -17,7 +18,16 @@ data class MusicUIState(
     val repeatMode: RepeatModes = RepeatModes.OFF,
     val shuffleMode : Boolean = false,
 
-    //list of songs
-    val songs : List<SongData> = emptyList()
+    //list of all songs
+    val songs : List<SongData> = emptyList(),
+
+    //list of favorite songs
+    val favoriteSongIds: Set<Long> = emptySet(),
+
+    //playlist type
+    val playlistMode: PlaylistMode = PlaylistMode.ALL,
+
+    //check is audio permission is available
+    val hasAudioPermission: Boolean = true,
 
 )
