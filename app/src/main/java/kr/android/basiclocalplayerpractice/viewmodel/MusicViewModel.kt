@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kr.android.basiclocalplayerpractice.data.FavoritesDataStore
 import kr.android.basiclocalplayerpractice.data.MusicRepository
 import kr.android.basiclocalplayerpractice.model.MusicUIState
 import kr.android.basiclocalplayerpractice.model.SongData
@@ -25,6 +26,10 @@ class MusicViewModel(
 
     //creating instance of music repository
     private val musicRepository = MusicRepository(getApplication())
+
+    //creating instance of favorites datastore
+    private val favoritesDataStore =
+        FavoritesDataStore(getApplication())
 
     //instances of MusicUIState
     private val _uiState = MutableStateFlow(MusicUIState())
@@ -93,6 +98,13 @@ class MusicViewModel(
         //provides current position updates
         startPositionUpdates()
 
+        //stores the favorite songs in datastore
+        viewModelScope.launch {
+            favoritesDataStore.favoriteSongIds.collect { favoriteIds ->
+                _uiState.value = _uiState.value.copy(favoriteSongIds = favoriteIds)
+            }
+        }
+
     }
 
     //loads the songs from repository
@@ -152,7 +164,10 @@ class MusicViewModel(
         //the song list will be determined on which playlist we are (all/favorites)
         val songs = getActivePlaylist()
 
-        //return the song data if any song is playing
+        //do nothing if there are no songs
+        if (songs.isEmpty()) return
+
+        //return if no song is currently selected
         val currentSong = _uiState.value.currentSong ?: return
 
         //get index of current song
@@ -161,9 +176,7 @@ class MusicViewModel(
         //if the current song is not part of the active playlist,
         //start playback from the first song in the playlist
         if (currentIndex == -1) {
-            if (songs.isNotEmpty()) {
-                selectSong(songs.first())
-            }
+            selectSong(songs.first())
             return
         }
 
@@ -189,6 +202,9 @@ class MusicViewModel(
         //the song list will be determined on which playlist we are (all/favorites)
         val songs = getActivePlaylist()
 
+        //do nothing if there are no songs
+        if (songs.isEmpty()) return
+
         //return the song data if any song is playing
         val currentSong = _uiState.value.currentSong ?: return
 
@@ -198,9 +214,7 @@ class MusicViewModel(
         //if the current song is not part of the active playlist,
         //start playback from the first song in the playlist
         if (currentIndex == -1) {
-            if (songs.isNotEmpty()) {
-                selectSong(songs.first())
-            }
+            selectSong(songs.first())
             return
         }
 
@@ -244,9 +258,15 @@ class MusicViewModel(
         else { favorites.add(song.id) }
 
         _uiState.value = _uiState.value.copy(favoriteSongIds = favorites)
+
+        //add the favorite song to data store
+        viewModelScope.launch {
+            favoritesDataStore.saveFavoriteSongIds(favorites)
+        }
+
     }
 
-    //toggle playlist
+    //toggle active playlist
     fun togglePlaylistMode() {
 
         val nextMode =
@@ -269,6 +289,12 @@ class MusicViewModel(
     //updates state of permission (allowed/denied)
     fun updatePermissionState(hasPermission: Boolean) {
         _uiState.value = _uiState.value.copy(hasAudioPermission = hasPermission)
+    }
+
+    //release player instance to avoid memory leaks
+    override fun onCleared() {
+        super.onCleared()
+        playerController.releasePlayer()
     }
 
 }

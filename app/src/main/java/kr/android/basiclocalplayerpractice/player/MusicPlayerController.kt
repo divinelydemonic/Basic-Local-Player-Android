@@ -24,12 +24,12 @@ class MusicPlayerController(
         player.addListener(
             object : Player.Listener{
 
-                //what to do when isPlaying value has changed (music playing/not)
+                //notify viewmodel when song is playing
                 override fun onIsPlayingChanged(isPlaying: Boolean) {
                     onPlayingStateChanged?.invoke(isPlaying)
                 }
 
-                //what to do when onSongEnded value has changed
+                //notify ViewModel when the current song finishes
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     if (playbackState == Player.STATE_ENDED) {
                         onSongEnded?.invoke()
@@ -47,7 +47,7 @@ class MusicPlayerController(
         //uri of selected song
         val songUri = song.uri
 
-        //creates a media item (box for storing the music) for music metadata
+        //create a media item containing the song uri and metadata
         val mediaItem = MediaItem.Builder()
             .setUri(songUri)
             .setMediaMetadata(
@@ -60,7 +60,7 @@ class MusicPlayerController(
             .build()
 
 
-        //points to the media item that is to be played
+        //set the selected song as the current media item
         player.setMediaItem(mediaItem)
 
         //prepares the music to play
@@ -97,6 +97,11 @@ class MusicPlayerController(
     //move to sought position
     fun seekTo(position : Long){
         player.seekTo(position)
+    }
+
+    //release the player instance to avoid memory leaks
+    fun releasePlayer() {
+        player.release()
     }
 
 }
