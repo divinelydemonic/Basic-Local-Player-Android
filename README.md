@@ -183,27 +183,42 @@ flowchart LR
 
 ## Home Screen
 
-```text
-[ Add Screenshot Here ]
-```
+<p>
+    <img src="images/HomeScreen_light_theme.png" height=500>
+    <img src="images/HomeScreen_dark_theme.png" height=500>
+</p>
 
 ## Mini Player
 
-```text
-[ Add Screenshot Here ]
-```
+<p>
+    <img src="images/MiniPlayer_light_theme.png" height=500>
+    <img src="images/MiniPlayer_dark_theme.png" height=500>
+</p>
 
 ## Full Player Screen
 
-```text
-[ Add Screenshot Here ]
-```
+<p>
+    <img src="images/MainPlayer_light_theme.png" height=500>
+    <img src="images/MainPlayer_dark_theme.png" height=500>
+    <br>
+    <img src="images/Modes.png" height=500>
+    <img src="images/WithoutAlbumArt.png" height=500>
+</p>
 
 ## Favorites Playlist
 
-```text
-[ Add Screenshot Here ]
-```
+<p>
+    <img src="images/FavouriteScreen.png" height=500>
+    <img src="images/FavouritePlaylist_light_theme.png" height=500>
+    <img src="images/FavouritePlaylist_dark_theme.png" height=500>
+</p>
+
+## Permission Launcher and Without Permission
+
+<p>
+    <img src="images/PermissionLauncher.png" height=500>
+    <img src="images/WithoutPermission.png" height=500>
+</p>
 
 ---
 
