@@ -11,7 +11,7 @@ A modern Android music player built with **Kotlin**, **Jetpack Compose**, **MVVM
 - [🛠 Tech Stack](#-tech-stack)
 - [🏗 Architecture](#-architecture)
 - [🔄 App Flow](#-app-flow)
-- [📸 Screenshots / Demo](#-screenshots--demo)
+- [📸 Screenshots](#-screenshots)
 - [🌐 API Integration](#-api-integration)
 - [📂 Project Structure](#-project-structure)
 - [🎯 Use Cases](#-use-cases)
@@ -179,7 +179,7 @@ flowchart LR
 
 ---
 
-# 📸 Screenshots / Demo
+# 📸 Screenshots
 
 ## Home Screen
 
