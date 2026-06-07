@@ -1,4 +1,5 @@
-# 🎵 Basic Local Music Player (lightweight version of LocalWave)
+# 🎵 Basic Local Music Player 
+## (lightweight version of LocalWave)
 
 A modern Android music player built with **Kotlin**, **Jetpack Compose**, **MVVM Architecture**, and **Media3 ExoPlayer**. The app scans and plays music stored locally on the device, providing a clean, responsive, and user-friendly listening experience with playlist management, favorites, and playback controls.
 
