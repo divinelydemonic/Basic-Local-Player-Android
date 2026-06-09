@@ -23,7 +23,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import kr.android.basiclocalplayerpractice.MainActivity
-import kr.android.basiclocalplayerpractice.utils.PlaylistMode
+import kr.android.basiclocalplayerpractice.model.PlaylistMode
 import kr.android.basiclocalplayerpractice.utils.hasAudioPermission
 import kr.android.basiclocalplayerpractice.view.components.MiniPlayer
 import kr.android.basiclocalplayerpractice.view.components.MusicList

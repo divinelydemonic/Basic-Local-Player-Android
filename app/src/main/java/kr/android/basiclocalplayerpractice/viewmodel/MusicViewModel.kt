@@ -13,8 +13,8 @@ import kr.android.basiclocalplayerpractice.data.MusicRepository
 import kr.android.basiclocalplayerpractice.model.MusicUIState
 import kr.android.basiclocalplayerpractice.model.SongData
 import kr.android.basiclocalplayerpractice.player.MusicPlayerController
-import kr.android.basiclocalplayerpractice.utils.PlaylistMode
-import kr.android.basiclocalplayerpractice.utils.RepeatModes
+import kr.android.basiclocalplayerpractice.model.PlaylistMode
+import kr.android.basiclocalplayerpractice.model.RepeatModes
 import kotlin.time.Duration.Companion.milliseconds
 
 class MusicViewModel(

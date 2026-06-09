@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kr.android.basiclocalplayerpractice.model.MusicUIState
-import kr.android.basiclocalplayerpractice.utils.RepeatModes
+import kr.android.basiclocalplayerpractice.model.RepeatModes
 
 @Composable
 fun PlaybackControlsSection(

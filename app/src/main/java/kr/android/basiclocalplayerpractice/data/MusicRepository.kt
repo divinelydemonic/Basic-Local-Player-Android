@@ -34,7 +34,7 @@ class MusicRepository(
         val cursor = context.contentResolver.query(
             audioCollection,    //which table (address)
             projection,              //which columns/attributes needed
-            null,         //no filtering (provides everything)
+            "${ MediaStore.Audio.Media.IS_MUSIC } != 0",    //filters out non-music audio files
             null,     //no arguments for filter since no filtering used
             null         //no sorting order
         )

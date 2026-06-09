@@ -1,4 +1,4 @@
-package kr.android.basiclocalplayerpractice.utils
+package kr.android.basiclocalplayerpractice.model
 
 enum class PlaylistMode {
     ALL,        //all songs

@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import kr.android.basiclocalplayerpractice.model.MusicUIState
 import kr.android.basiclocalplayerpractice.model.SongData
 import kr.android.basiclocalplayerpractice.utils.EmptyState
-import kr.android.basiclocalplayerpractice.utils.PlaylistMode
+import kr.android.basiclocalplayerpractice.model.PlaylistMode
 
 @Composable
 fun MusicList(

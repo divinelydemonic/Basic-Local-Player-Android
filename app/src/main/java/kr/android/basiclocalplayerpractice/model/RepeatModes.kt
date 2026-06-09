@@ -1,4 +1,4 @@
-package kr.android.basiclocalplayerpractice.utils
+package kr.android.basiclocalplayerpractice.model
 
 enum class RepeatModes {
     OFF,    //no repeat

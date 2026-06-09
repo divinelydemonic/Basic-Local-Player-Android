@@ -1,8 +1,5 @@
 package kr.android.basiclocalplayerpractice.model
 
-import kr.android.basiclocalplayerpractice.utils.PlaylistMode
-import kr.android.basiclocalplayerpractice.utils.RepeatModes
-
 //playback state -> dynamic
 data class MusicUIState(
 
