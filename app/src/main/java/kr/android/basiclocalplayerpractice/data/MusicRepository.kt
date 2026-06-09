@@ -30,11 +30,14 @@ class MusicRepository(
             MediaStore.Audio.Media.ALBUM_ID
         )   //creates a table of all the columns we need
 
+        //filters out non-audio files (recordings, ringtones, etc.)
+        val selection = "${ MediaStore.Audio.Media.IS_MUSIC } != 0"
+
         //using query in contentResolver for getting the songs (returns Cursor?)
         val cursor = context.contentResolver.query(
             audioCollection,    //which table (address)
             projection,              //which columns/attributes needed
-            "${ MediaStore.Audio.Media.IS_MUSIC } != 0",    //filters out non-music audio files
+            selection,               //no filtering (provides everything)
             null,     //no arguments for filter since no filtering used
             null         //no sorting order
         )
