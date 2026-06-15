@@ -42,23 +42,15 @@ fun AlbumArtSection(
             ),
         contentAlignment = Alignment.Center
     ){
-        if (currentSong?.albumArtUri != null) {
-            AsyncImage(
-                model = currentSong.albumArtUri,
-                contentDescription = "album art",
-                modifier = Modifier.fillMaxSize(),
-                placeholder = painterResource(R.drawable.fallback_album_art),
-                error = painterResource(R.drawable.fallback_album_art),
-                fallback = painterResource(R.drawable.fallback_album_art),
-                contentScale = ContentScale.Crop
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Default.MusicNote,
-                contentDescription = "fallback album art",
-                modifier = Modifier.size(150.dp)
-            )
-        }
+        AsyncImage(
+            model = currentSong?.albumArtUri,
+            contentDescription = "album art",
+            modifier = Modifier.fillMaxSize(),
+            placeholder = painterResource(R.drawable.fallback_album_art),
+            error = painterResource(R.drawable.fallback_album_art),
+            fallback = painterResource(R.drawable.fallback_album_art),
+            contentScale = ContentScale.Crop
+        )
     }
 
 }

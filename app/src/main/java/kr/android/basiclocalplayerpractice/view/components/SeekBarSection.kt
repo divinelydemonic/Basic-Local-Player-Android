@@ -41,7 +41,7 @@ fun SeekBarSection(
 
     //updating slider along with the music progress
     LaunchedEffect(currentPosition, duration) {
-        if (!isDragging && uiState.duration > 0){
+        if (!isDragging && duration > 0){
             sliderPosition = currentPosition.toFloat()/duration.toFloat()
         }
     }

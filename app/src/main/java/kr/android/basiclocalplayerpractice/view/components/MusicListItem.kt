@@ -41,7 +41,7 @@ fun MusicListItem(
         targetValue =
             if (isCurrentSong) MaterialTheme.colorScheme.onPrimary
             else MaterialTheme.colorScheme.onSurface,
-        animationSpec = tween(50),
+        animationSpec = tween(100),
         label = "isPlayingColor"
     )
 
